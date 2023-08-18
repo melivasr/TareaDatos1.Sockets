@@ -33,7 +33,7 @@ class MiCliente extends JFrame{
 		
 		setBounds(600,300,280,350);
 				
-		LaminaMiCliente micanvas=new LaminaMiCliente();
+		InterfazCliente micanvas=new InterfazCliente();
 		
 		add(micanvas);
 		
@@ -42,9 +42,9 @@ class MiCliente extends JFrame{
 	
 }
 
-class LaminaMiCliente extends JPanel{
+class InterfazCliente extends JPanel{
 	
-	public LaminaMiCliente(){
+	public InterfazCliente(){
 	
 		JLabel texto=new JLabel("CLIENTE");
 		
