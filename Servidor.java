@@ -82,7 +82,11 @@ class MiServidor extends JFrame implements Runnable {
 
             Socket enviaDestinatario = new Socket(ip,9089);
 
-            ObjectOutputStream reenvio_datos= new ObjectOutputStream(enviaDestinatario.getOutputStream();) //Última Linea escrita 
+            ObjectOutputStream reenvio_datos= new ObjectOutputStream(enviaDestinatario.getOutputStream());
+
+            reenvio_datos.writeObject(datos_recibidos);
+
+            enviaDestinatario.close();
 
             misocket.close();
             }

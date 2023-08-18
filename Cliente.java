@@ -1,8 +1,10 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -44,7 +46,7 @@ class MiCliente extends JFrame{
 	
 }
 
-class InterfazCliente extends JPanel{
+class InterfazCliente extends JPanel implements Runnable {
 	
 	public InterfazCliente(){
 
@@ -76,8 +78,35 @@ class InterfazCliente extends JPanel{
         miboton.addActionListener(mievento);
 		
 		add(miboton);
+
+        Thread mihilo=new Thread(this);
+
+        mihilo.start();
 		
 	}
+
+    @Override
+    public void run() {
+        try{
+            ServerSocket servidorCliente = new ServerSocket(9089);
+
+            Socket cliente;
+
+            Envios paqueteRecibido;
+
+            while (true){
+                cliente=servidorCliente.accept();
+
+                ObjectInputStream entradaDatos = new ObjectInputStream(cliente.getInputStream());
+
+                paqueteRecibido=(Envios)entradaDatos.readObject();
+
+                espaciochat.append("\n"+paqueteRecibido.getNick()+": "+paqueteRecibido.getMensaje());
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     private class Enviar implements ActionListener{
 
