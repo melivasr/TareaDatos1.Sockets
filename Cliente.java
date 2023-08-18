@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
@@ -45,10 +46,23 @@ class MiCliente extends JFrame{
 class InterfazCliente extends JPanel{
 	
 	public InterfazCliente(){
+
+        nick = new JTextField(5);
+
+        add (nick);
+
 	
-		JLabel texto=new JLabel("CLIENTE");
+		JLabel texto=new JLabel("CHAT");
 		
 		add(texto);
+        
+        ip = new JTextField(5);
+
+        add(ip);
+
+        espaciochat = new JTextArea(12,20); //coordenadas ventana 
+
+        add (espaciochat);
 	
 		campo1=new JTextField(20);
 	
@@ -94,7 +108,9 @@ class InterfazCliente extends JPanel{
 		
 		
 		
-	private JTextField campo1;
+	private JTextField campo1, nick, ip;
+
+    private JTextArea espaciochat;
 	
 	private JButton miboton;
 	

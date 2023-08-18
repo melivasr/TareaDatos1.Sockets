@@ -54,6 +54,8 @@ class MiServidor extends JFrame implements Runnable {
         try {
             ServerSocket servidor= new ServerSocket(9999);
 
+            while(true){
+
             Socket misocket = servidor.accept();
 
             DataInputStream entrada_datos = new DataInputStream(misocket.getInputStream());
@@ -63,6 +65,7 @@ class MiServidor extends JFrame implements Runnable {
             areatexto.append("\n" + mensaje_texto);
 
             misocket.close();
+            }
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
