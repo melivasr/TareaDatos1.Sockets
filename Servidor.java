@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -78,6 +79,10 @@ class MiServidor extends JFrame implements Runnable {
             String mensaje_texto = entrada_datos.readUTF();;*/
 
             areatexto.append("\n" + nick + ": " + mensaje + " para "  + ip);
+
+            Socket enviaDestinatario = new Socket(ip,9089);
+
+            ObjectOutputStream reenvio_datos= new ObjectOutputStream(enviaDestinatario.getOutputStream();)
 
             misocket.close();
             }
