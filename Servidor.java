@@ -66,17 +66,23 @@ class MiServidor extends JFrame implements Runnable {
 
             datos_recibidos = (Envios) envio_datos.readObject();
 
+            nick = datos_recibidos.getNick();
+
+            ip = datos_recibidos.getIp();
+
+            mensaje = datos_recibidos.getMensaje();
+
             
            /*  DataInputStream entrada_datos = new DataInputStream(misocket.getInputStream());
 
-            String mensaje_texto = entrada_datos.readUTF();
+            String mensaje_texto = entrada_datos.readUTF();;*/
 
-            areatexto.append("\n" + mensaje_texto);*/
+            areatexto.append("\n" + nick + ": " + mensaje + " para "  + ip);
 
             misocket.close();
             }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
