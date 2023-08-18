@@ -1,6 +1,6 @@
 import java.awt.BorderLayout;
-import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -54,15 +54,24 @@ class MiServidor extends JFrame implements Runnable {
         try {
             ServerSocket servidor= new ServerSocket(9999);
 
+            String nick, ip, mensaje;
+
+            Envios datos_recibidos;
+
             while(true){
 
             Socket misocket = servidor.accept();
 
-            DataInputStream entrada_datos = new DataInputStream(misocket.getInputStream());
+            ObjectInputStream envio_datos = new ObjectInputStream(misocket.getInputStream());
+
+            datos_recibidos = (Envios) envio_datos.readObject();
+
+            
+           /*  DataInputStream entrada_datos = new DataInputStream(misocket.getInputStream());
 
             String mensaje_texto = entrada_datos.readUTF();
 
-            areatexto.append("\n" + mensaje_texto);
+            areatexto.append("\n" + mensaje_texto);*/
 
             misocket.close();
             }

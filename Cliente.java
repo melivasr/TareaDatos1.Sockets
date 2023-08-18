@@ -1,7 +1,8 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -70,7 +71,7 @@ class InterfazCliente extends JPanel{
 	
 		miboton=new JButton("Enviar");
 
-        EnviarTexto mievento= new EnviarTexto();
+        Enviar mievento= new Enviar();
 
         miboton.addActionListener(mievento);
 		
@@ -78,7 +79,7 @@ class InterfazCliente extends JPanel{
 		
 	}
 
-    private class EnviarTexto implements ActionListener{
+    private class Enviar implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -87,11 +88,19 @@ class InterfazCliente extends JPanel{
             try {
                 Socket misocket= new Socket("127.0.0.1", 9999);
 
-                DataOutputStream salida_datos = new DataOutputStream(misocket.getOutputStream());
+                Envios datos = new Envios();
 
-                salida_datos.writeUTF(campo1.getText());
+                datos.setNick(nick.getText());
 
-                salida_datos.close();
+                datos.setIp(ip.getText());
+
+                datos.setMensaje(campo1.getText());
+
+                ObjectOutputStream envio_datos= new ObjectOutputStream(misocket.getOutputStream());
+
+                envio_datos.writeObject(datos);
+
+                misocket.close();
 
             } catch (UnknownHostException e1) {
                 // TODO Auto-generated catch block
@@ -114,7 +123,7 @@ class InterfazCliente extends JPanel{
 	
 }
 
-class Envios{
+class Envios implements Serializable{
     private String nick, ip, mensaje;
 
     public String getNick() {
