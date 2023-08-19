@@ -86,8 +86,6 @@ class MiServidor extends JFrame implements Runnable {
 
             reenvio_datos.writeObject(datos_recibidos);
 
-            reenvio_datos.close();
-
             enviaDestinatario.close();
 
             misocket.close();
