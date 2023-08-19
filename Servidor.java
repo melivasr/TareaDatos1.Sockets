@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -58,6 +59,8 @@ class MiServidor extends JFrame implements Runnable {
 
             String nick, ip, mensaje;
 
+            ArrayList <String> listaIp= new ArrayList<String>();
+
             Envios datos_recibidos;
 
             while(true){
@@ -102,6 +105,15 @@ class MiServidor extends JFrame implements Runnable {
             String IpRemota = localizar.getHostAddress();
 
             System.out.println("Online " + IpRemota);
+
+            listaIp.add(nick + IpRemota); // Cambiar de tal forma que lo que salgan sean los nombres y no las ip
+
+            datos_recibidos.setIps(listaIp);
+
+            for (String z: listaIp){
+
+                System.out.println("Array: " + z);
+            }
 
             //
 

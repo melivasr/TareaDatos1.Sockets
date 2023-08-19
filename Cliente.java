@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -98,7 +99,6 @@ class InterfazCliente extends JPanel implements Runnable {
         ip.addItem("Usuario2");
 
         ip.addItem("Usuario3");
-
 
         add(ip);
 
@@ -201,6 +201,16 @@ class InterfazCliente extends JPanel implements Runnable {
 
 class Envios implements Serializable{
     private String nick, ip, mensaje;
+
+    private ArrayList<String> Ips;
+
+    public ArrayList<String> getIps() {
+        return Ips;
+    }
+
+    public void setIps(ArrayList<String> ips) {
+        Ips = ips;
+    }
 
     public String getNick() {
         return nick;
