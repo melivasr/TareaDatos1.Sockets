@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -44,9 +45,36 @@ class MiCliente extends JFrame{
 		add(micanvas);
 		
 		setVisible(true);
+
+        addWindowListener(new EnviosOnline());
 		}
 }
 
+//Envios Online
+class EnviosOnline extends WindowAdapter{
+
+    public void windowOpened(WindowEvent e){
+
+        try{
+
+            Socket misocket = new Socket("127.0.0.1", 9999);
+            
+            Envios datos = new Envios();
+
+            datos.setMensaje(" online");
+
+            ObjectOutputStream  envio_datos = new ObjectOutputStream(misocket.getOutputStream());
+
+            envio_datos.writeObject(datos);
+
+            misocket.close();
+
+        }catch(Exception e2){}
+    }
+
+
+}
+//
 class InterfazCliente extends JPanel implements Runnable {
 	public InterfazCliente() {
 

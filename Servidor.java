@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -62,6 +63,16 @@ class MiServidor extends JFrame implements Runnable {
             while(true){
 
             Socket misocket = servidor.accept();
+
+            //ONLINE
+
+            InetAddress localizar = misocket.getInetAddress();
+
+            String IpRemota = localizar.getHostAddress();
+
+            System.out.println("Online " + IpRemota);
+
+            //
 
             ObjectInputStream envio_datos = new ObjectInputStream(misocket.getInputStream());
 
