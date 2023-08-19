@@ -9,8 +9,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,19 +23,23 @@ public class Cliente {
 
 	public static void main(String[] args) {
 
+        MiCliente miusuario=new MiCliente();
+		
+		miusuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	}
 
 }
-
 
 class MiCliente extends JFrame{
 
 
 	
-	public MiCliente(String usuario){
+	public MiCliente(){
 		
 		setBounds(650,200,280,350);
-		InterfazCliente micanvas=new InterfazCliente(usuario);
+
+		InterfazCliente micanvas=new InterfazCliente();
 		
 		add(micanvas);
 		
@@ -42,16 +48,29 @@ class MiCliente extends JFrame{
 }
 
 class InterfazCliente extends JPanel implements Runnable {
-	public InterfazCliente(String usuario) {
-        nick = new JLabel(usuario);
-        add (nick);
+	public InterfazCliente() {
 
+        String usuario = JOptionPane.showInputDialog("Nick: ");
+
+        JLabel n_nick= new JLabel("Nick: ");
+        add(n_nick);
+    
+        nick = new JLabel();
+        nick.setText(usuario);
+        add (nick);
 	
-		JLabel texto=new JLabel("CHAT");
+		JLabel texto=new JLabel("Online: ");
 		
 		add(texto);
         
-        ip = new JTextField(5);
+        ip = new JComboBox();
+
+        ip.addItem("Usuario1");
+
+        ip.addItem("Usuario2");
+
+        ip.addItem("Usuario3");
+
 
         add(ip);
 
@@ -95,6 +114,7 @@ class InterfazCliente extends JPanel implements Runnable {
 
                 espaciochat.append("\n"+paqueteRecibido.getNick()+": "+paqueteRecibido.getMensaje());
             }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -106,6 +126,9 @@ class InterfazCliente extends JPanel implements Runnable {
         public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
             //System.out.println(campo1.getText());
+
+            espaciochat.append("\n" + campo1.getText());
+
             try {
                 Socket misocket= new Socket("127.0.0.1", 9999);
 
@@ -113,7 +136,7 @@ class InterfazCliente extends JPanel implements Runnable {
 
                 datos.setNick(nick.getText());
 
-                datos.setIp(ip.getText());
+                datos.setIp(ip.getSelectedItem().toString());
 
                 datos.setMensaje(campo1.getText());
 
@@ -137,8 +160,10 @@ class InterfazCliente extends JPanel implements Runnable {
 
 		
 	private JTextField campo1;
+
+    private JComboBox ip;
+
     private JLabel nick;
-    private JTextField ip;
 
     private JTextArea espaciochat;
 	
