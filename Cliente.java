@@ -92,16 +92,16 @@ class InterfazCliente extends JPanel implements Runnable {
 
             Socket cliente;
 
-            Envios paqueteRecibido;
+            Envios DatosRecibidos;
 
             while (true){
                 cliente=servidorCliente.accept();
 
                 ObjectInputStream entradaDatos = new ObjectInputStream(cliente.getInputStream());
 
-                paqueteRecibido=(Envios)entradaDatos.readObject();
+                DatosRecibidos=(Envios) entradaDatos.readObject();
 
-                espaciochat.append("\n"+paqueteRecibido.getNick()+": "+paqueteRecibido.getMensaje());
+                espaciochat.append("\n"+DatosRecibidos.getNick()+": "+DatosRecibidos.getMensaje());
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -115,7 +115,7 @@ class InterfazCliente extends JPanel implements Runnable {
             // TODO Auto-generated method stub
             //System.out.println(campo1.getText());
             try {
-                Socket misocket= new Socket("127.0.0.1", 9999);
+                Socket misocket= new Socket("192.168.100.8", 9999);
 
                 Envios datos = new Envios();
 
