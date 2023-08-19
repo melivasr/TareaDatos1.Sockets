@@ -64,16 +64,6 @@ class MiServidor extends JFrame implements Runnable {
 
             Socket misocket = servidor.accept();
 
-            //ONLINE
-
-            InetAddress localizar = misocket.getInetAddress();
-
-            String IpRemota = localizar.getHostAddress();
-
-            System.out.println("Online " + IpRemota);
-
-            //
-
             ObjectInputStream envio_datos = new ObjectInputStream(misocket.getInputStream());
 
             datos_recibidos = (Envios) envio_datos.readObject();
@@ -89,6 +79,8 @@ class MiServidor extends JFrame implements Runnable {
 
             String mensaje_texto = entrada_datos.readUTF();;*/
 
+            if(!mensaje.equals(" online")){
+
             areatexto.append("\n" + nick + ": " + mensaje + " para "  + ip);
 
             Socket enviaDestinatario = new Socket(ip,9089);
@@ -101,7 +93,19 @@ class MiServidor extends JFrame implements Runnable {
 
             enviaDestinatario.close();
 
-            misocket.close();
+            misocket.close(); }else{
+
+            //ONLINE
+
+            InetAddress localizar = misocket.getInetAddress();
+
+            String IpRemota = localizar.getHostAddress();
+
+            System.out.println("Online " + IpRemota);
+
+            //
+
+            }
             }
 
         } catch (IOException | ClassNotFoundException e) {
@@ -111,6 +115,5 @@ class MiServidor extends JFrame implements Runnable {
 
     }
     private	JTextArea areatexto;
-
 
 }
