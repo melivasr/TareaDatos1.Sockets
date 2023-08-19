@@ -20,11 +20,6 @@ import javax.swing.JTextField;
 public class Cliente {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		MiCliente miusuario=new MiCliente();
-		
-		miusuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
@@ -32,26 +27,23 @@ public class Cliente {
 
 
 class MiCliente extends JFrame{
+
+
 	
-	public MiCliente(){
+	public MiCliente(String usuario){
 		
-		setBounds(600,300,280,350);
-				
-		InterfazCliente micanvas=new InterfazCliente();
-		
+		setBounds(650,200,280,350);
+		InterfazCliente micanvas=new InterfazCliente(usuario);
+
 		add(micanvas);
 		
 		setVisible(true);
 		}
-	
 }
 
 class InterfazCliente extends JPanel implements Runnable {
-	
-	public InterfazCliente(){
-
-        nick = new JTextField(5);
-
+	public InterfazCliente(String usuario) {
+        nick = new JLabel(usuario);
         add (nick);
 
 	
@@ -82,7 +74,7 @@ class InterfazCliente extends JPanel implements Runnable {
         Thread mihilo=new Thread(this);
 
         mihilo.start();
-		
+
 	}
 
     @Override
@@ -92,16 +84,16 @@ class InterfazCliente extends JPanel implements Runnable {
 
             Socket cliente;
 
-            Envios DatosRecibidos;
+            Envios paqueteRecibido;
 
             while (true){
                 cliente=servidorCliente.accept();
 
                 ObjectInputStream entradaDatos = new ObjectInputStream(cliente.getInputStream());
 
-                DatosRecibidos=(Envios) entradaDatos.readObject();
+                paqueteRecibido=(Envios)entradaDatos.readObject();
 
-                espaciochat.append("\n"+DatosRecibidos.getNick()+": "+DatosRecibidos.getMensaje());
+                espaciochat.append("\n"+paqueteRecibido.getNick()+": "+paqueteRecibido.getMensaje());
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -115,7 +107,7 @@ class InterfazCliente extends JPanel implements Runnable {
             // TODO Auto-generated method stub
             //System.out.println(campo1.getText());
             try {
-                Socket misocket= new Socket("192.168.100.8", 9999);
+                Socket misocket= new Socket("127.0.0.1", 9999);
 
                 Envios datos = new Envios();
 
@@ -144,7 +136,9 @@ class InterfazCliente extends JPanel implements Runnable {
     }
 
 		
-	private JTextField campo1, nick, ip;
+	private JTextField campo1;
+    private JLabel nick;
+    private JTextField ip;
 
     private JTextArea espaciochat;
 	
