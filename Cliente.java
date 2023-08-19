@@ -34,7 +34,7 @@ class MiCliente extends JFrame{
 		
 		setBounds(650,200,280,350);
 		InterfazCliente micanvas=new InterfazCliente(usuario);
-
+		
 		add(micanvas);
 		
 		setVisible(true);
@@ -55,7 +55,7 @@ class InterfazCliente extends JPanel implements Runnable {
 
         add(ip);
 
-        espaciochat = new JTextArea(12,20); //coordenadas ventana 
+        espaciochat = new JTextArea(12,20); //coordenadas ventana
 
         add (espaciochat);
 	
@@ -74,7 +74,7 @@ class InterfazCliente extends JPanel implements Runnable {
         Thread mihilo=new Thread(this);
 
         mihilo.start();
-
+		
 	}
 
     @Override
