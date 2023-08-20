@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -98,7 +99,7 @@ class EnviosOnline extends WindowAdapter{
 
         try{
 
-            Socket misocket = new Socket("127.0.0.1", 9999);
+            Socket misocket = new Socket("192.168.100.8", 9999);
             
             Envios datos = new Envios();
 
@@ -207,7 +208,7 @@ class InterfazCliente extends JPanel implements Runnable {
             espaciochat.append("\n" + campo1.getText());
 
             try {
-                Socket misocket= new Socket("127.0.0.1", 9999);
+                Socket misocket= new Socket("192.168.100.8", 9999);
 
                 Envios datos = new Envios();
 

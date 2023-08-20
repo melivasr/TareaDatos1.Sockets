@@ -47,7 +47,6 @@ class MiServidor extends JFrame implements Runnable {
 		
 		}
 	
-	
 
     @Override
     public void run() {
@@ -106,7 +105,7 @@ class MiServidor extends JFrame implements Runnable {
 
             System.out.println("Online " + IpRemota);
 
-            listaIp.add(nick + IpRemota); // Cambiar de tal forma que lo que salgan sean los nombres y no las ip
+            listaIp.add(IpRemota); // Cambiar de tal forma que lo que salgan sean los nombres y no las ip
 
             datos_recibidos.setIps(listaIp);
 
