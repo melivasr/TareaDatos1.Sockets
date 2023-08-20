@@ -1,3 +1,5 @@
+package Servidor;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import ClienteConection;
 
 public class Servidor  {
 
@@ -140,3 +143,4 @@ class MiServidor extends JFrame implements Runnable {
     private	JTextArea areatexto;
 
 }
+
