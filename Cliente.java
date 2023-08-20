@@ -51,6 +51,46 @@ class MiCliente extends JFrame{
 		}
 }
 
+class Envios implements Serializable{
+    private String nick, ip, mensaje;
+
+    private ArrayList<String> Ips;
+
+    public ArrayList<String> getIps() {
+        return Ips;
+    }
+
+    public void setIps(ArrayList<String> ips) {
+        Ips = ips;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+
+}
+
 //Envios Online
 class EnviosOnline extends WindowAdapter{
 
@@ -94,12 +134,6 @@ class InterfazCliente extends JPanel implements Runnable {
         
         ip = new JComboBox();
 
-        ip.addItem("Usuario1");
-
-        ip.addItem("Usuario2");
-
-        ip.addItem("Usuario3");
-
         add(ip);
 
         espaciochat = new JTextArea(12,20); //coordenadas ventana
@@ -140,7 +174,22 @@ class InterfazCliente extends JPanel implements Runnable {
 
                 paqueteRecibido=(Envios)entradaDatos.readObject();
 
+                if(paqueteRecibido.getMensaje().equals(" online")){
+
                 espaciochat.append("\n"+paqueteRecibido.getNick()+": "+paqueteRecibido.getMensaje());
+
+                } else{
+
+                    ArrayList <String> IpsMenu= new ArrayList<String>();
+                    IpsMenu = paqueteRecibido.getIps();
+
+                    ip.removeAllItems();
+
+                    for(String z:IpsMenu){
+                        ip.addItem(z);
+                    }
+
+                }
             }
 
         }catch (Exception e){
@@ -197,44 +246,4 @@ class InterfazCliente extends JPanel implements Runnable {
 	
 	private JButton miboton;
 	
-}
-
-class Envios implements Serializable{
-    private String nick, ip, mensaje;
-
-    private ArrayList<String> Ips;
-
-    public ArrayList<String> getIps() {
-        return Ips;
-    }
-
-    public void setIps(ArrayList<String> ips) {
-        Ips = ips;
-    }
-
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-
 }

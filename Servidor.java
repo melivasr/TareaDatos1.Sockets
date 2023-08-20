@@ -113,6 +113,18 @@ class MiServidor extends JFrame implements Runnable {
             for (String z: listaIp){
 
                 System.out.println("Array: " + z);
+
+                Socket enviaDestinatario = new Socket(z,9089);
+
+                ObjectOutputStream reenvio_datos= new ObjectOutputStream(enviaDestinatario.getOutputStream());
+
+                reenvio_datos.writeObject(datos_recibidos);
+
+                reenvio_datos.close();
+
+                enviaDestinatario.close();
+
+                misocket.close();
             }
 
             //
