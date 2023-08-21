@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Clase encargada de crear conexiones entre clientes y el servidor
+ */
 public class ClienteConnection implements Runnable {
 	String nick, ip;
 
@@ -15,6 +18,12 @@ public class ClienteConnection implements Runnable {
 
     ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
 
+    /**
+     * Crea un paquete con la informacion de cada mensaje
+     * @param nick Quien lo envia
+     * @param ip Ip de quien lo envia
+     * @param socket socket al que pertenece
+     */
 	public ClienteConnection(String nick, String ip, Socket socket){
 
     this.nick = nick;
@@ -29,10 +38,18 @@ public class ClienteConnection implements Runnable {
 		}
 
 
+    /**
+     * Conecta al cliente con el socket dado
+     * @param misocket Usado para concetar al cliente
+     */
     public ClienteConnection(Socket misocket) {
         this.socket= misocket;
     }
 
+    /**
+     * Crea una linea de envio y escribe un mensaje con los datos
+     * @param mensaje La clase para la informacion de los mensajes
+     */
     public void Enviar_mensaje(Mensaje mensaje){
         try {
 
@@ -47,12 +64,20 @@ public class ClienteConnection implements Runnable {
         
     }
 
-    
+
+    /**
+     * Devuelve el primer elemento de la lista de mensajes
+     * @return El primer elemento de la lista de mensajes
+     */
     public Mensaje Obtener_mensaje(){
 
         return this.mensajes_recibidos.poll();
     }
 
+    /**
+     * Función para revisar el cliente resive mensajes
+     * @return Un booleano que dice si la lista de mensajes recibidos tiene algun elemento
+     */
     public Boolean Revisar_bandeja(){
         return !this.mensajes_recibidos.isEmpty();
     }
@@ -63,8 +88,11 @@ public class ClienteConnection implements Runnable {
     public String getNick(){
         return nick;
     }
-        
 
+
+    /**
+     * Se encarga de recibir constantemente mensajes y los añade a la lista de mensajes
+     */
     @Override
     public void run() {
         // TODO Auto-generated method stub

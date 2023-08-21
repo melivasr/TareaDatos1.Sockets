@@ -10,7 +10,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * Clase para ventana inicial encargada de crear chat y asignarles su nombre de usuario
+ */
 public class Inicial implements ActionListener {
+    /**
+     * Declaración de elementos de la interfaz de la ventana inicial
+     */
     private JFrame frame=new JFrame();
     private JButton crearCliente= new JButton("Crear chat");
 
@@ -21,6 +27,9 @@ public class Inicial implements ActionListener {
     private JTextField nickname = new JTextField(5);
 
     ArrayList<String> usuarios = new ArrayList<String>();
+    /**
+     * Clase encargada iniciar los diferentes elmentos de la interfaz de la ventana inicial
+     */
     public Inicial(){
         nickname.setBounds(65,50,150,40);
         nickname.setText("Nombre de usuario");
@@ -46,12 +55,15 @@ public class Inicial implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
     }
-
+    /**
+     * Asigna funciones a los botones al presionarlos
+     * @param e El evento que esperamos que pase en este caso tocar un boton
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==crearCliente){
-            MiCliente miusuario=new MiCliente(nickname.getText());
-            miusuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            MiCliente miusuario=new MiCliente();
+
             usuarios.add(nickname.getText());
         }else if(e.getSource()==verUsuarios){
             System.out.println(usuarios);

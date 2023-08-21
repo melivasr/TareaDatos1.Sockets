@@ -17,9 +17,13 @@ import javax.swing.JTextField;
 
 import Common.ClienteConnection;
 import Common.Mensaje;
-
+/**
+ * Clase para crear una ventana de chat
+ */
 class MiCliente extends JFrame{
-	
+    /**
+     * Constructor de la ventana de chat
+     */
 	public MiCliente(){
 		
 		setBounds(650,200,280,350);
@@ -52,7 +56,9 @@ class MiCliente extends JFrame{
 
 		}
 }
-
+/**
+ * Clase encargada de los elementos de la interfaz del chat
+ */
 class InterfazCliente extends JPanel implements Runnable {
 
     private JTextField campo1;
@@ -66,7 +72,10 @@ class InterfazCliente extends JPanel implements Runnable {
     private JTextArea espaciochat;
 	
 	private JButton miboton;
-
+    /**
+     * Clase encargada iniciar los diferentes elementos de la interfaz del chat
+     * @param cliente Conexion con el cliente
+     */
 	public InterfazCliente(ClienteConnection cliente) {
 
         this.cliente = cliente;
@@ -114,16 +123,25 @@ class InterfazCliente extends JPanel implements Runnable {
 
 		
 	}
-
+    /**
+     * Clase encargada de enviar mensajes al servidor
+     */
     private class Enviar implements ActionListener{
 
         private ClienteConnection cliente;
 
+        /**
+         * Modifica la conexion del cliente
+         * @param cliente La nueva conexion
+         */
         public Enviar(ClienteConnection cliente){
         
             this.cliente = cliente;
         }
-
+        /**
+         * Detecta los eventos
+         * @param e El evento que esperamos que pase en este
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -132,12 +150,14 @@ class InterfazCliente extends JPanel implements Runnable {
             Mensaje datos = new Mensaje(nick.getText(), "destinatario", campo1.getText(), " mensaje");
             this.cliente.Enviar_mensaje(datos);
 
-            System.out.println("Mensaje Enviao");
+            System.out.println("Mensaje Enviado");
 
         }
 
     }
-
+    /**
+     * Función encargada de revisar constantemente si se reciben mensajes y mostrarlos
+     */
     @Override
     public void run() {
         while(true){

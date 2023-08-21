@@ -2,11 +2,21 @@ package Common;
 
 import java.io.Serializable;
 
+/**
+ * Clase para los mensajes y la información que contienen, ademas de añadir su getter y setter a cada dato
+ */
 public class Mensaje implements Serializable{
 
     //tipo posibles opciones: comando, mensaje
     private String remitente, destinatario, mensaje, tipo;
 
+    /**
+     * Contructor del mensaje
+     * @param remitente Quien lo envia
+     * @param destinatario Para quien
+     * @param mensaje Texto del mensaje
+     * @param tipo Comando o texto
+     */
     public Mensaje(String remitente, String destinatario, String mensaje, String tipo){
         this.remitente = remitente;
         this.destinatario = destinatario;

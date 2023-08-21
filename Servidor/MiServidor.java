@@ -8,11 +8,18 @@ import javax.swing.JTextArea;
 
 import Common.ClienteConnection;
 
+/**
+ * Clase de servidor que se encarga de recibir los mensajes y reenviarlos
+ */
 public class MiServidor implements Runnable {
 	private	JTextArea areatexto;
 	public MiServidor(){
 		
 		}
+
+    /**
+     * Inicia el servidor y crea una conexion propia
+     */
     @Override
     public void run() {
         // TODO Auto-generated method stub
