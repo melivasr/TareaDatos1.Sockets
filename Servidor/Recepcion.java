@@ -36,13 +36,13 @@ public class Recepcion implements Runnable {
             String llave = llaves.nextElement();
             if(this.conexiones.containsKey(llave)){
                 this.conexiones.get(llave).Enviar_mensaje(mensaje);// obtiene el destinatario y envia el mensaje
-            }//Mensaje comando que envie que alguien nuevo se conecto
+            }//Falta mensaje comando que envie que alguien nuevo se conecto
         }
 
     }
 
     @Override
-    public void run() {
+    public void run() { //Revisa bandeja de conexiones, revisa mensajes pendientes y se manda al metodo Enviar
         while (true) {
             Enumeration<String> llaves = this.conexiones.keys();
             while (llaves.hasMoreElements()) {
@@ -51,7 +51,7 @@ public class Recepcion implements Runnable {
                 if(conexion.Revisar_bandeja()){
                     Mensaje mensaje = conexion.Obtener_mensaje();
                     if (mensaje != null) {
-                        EnviarMensaje(mensaje);
+                        this.EnviarMensaje(mensaje);
                     }
                 }
             }
