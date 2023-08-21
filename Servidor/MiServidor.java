@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JTextArea;
 
+import Common.ClienteConnection;
+
 public class MiServidor implements Runnable {
 	private	JTextArea areatexto;
 	public MiServidor(){
@@ -29,7 +31,7 @@ public class MiServidor implements Runnable {
 
                 Socket misocket = servidor.accept();
 
-                ClienteConection miusuario=new ClienteConection("nick", "ip", misocket);
+                ClienteConnection miusuario=new ClienteConnection("nick", "ip", misocket);
 
                 Thread mihilo= new Thread(miusuario);
 

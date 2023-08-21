@@ -15,7 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import Mensaje.Mensaje;
+import Common.ClienteConnection;
+import Common.Mensaje;
 
 class MiCliente extends JFrame{
 	
@@ -27,9 +28,9 @@ class MiCliente extends JFrame{
         try {
             misocket = new Socket("192.168.100.8", 9998);
 
-            Cliente cliente = new Cliente(misocket);
+            ClienteConnection cliente = new ClienteConnection(misocket);
 
-		    InterfazCliente micanvas=new InterfazCliente(cliente);
+            InterfazCliente micanvas=new InterfazCliente(cliente);
 		
             new Thread(cliente).start();
 
@@ -56,7 +57,7 @@ class InterfazCliente extends JPanel implements Runnable {
 
     private JTextField campo1;
 
-    private Cliente cliente;
+    private ClienteConnection cliente;
 
     private JComboBox ip;
 
@@ -66,13 +67,13 @@ class InterfazCliente extends JPanel implements Runnable {
 	
 	private JButton miboton;
 
-	public InterfazCliente(Cliente cliente) {
+	public InterfazCliente(ClienteConnection cliente) {
 
         this.cliente = cliente;
 
         String usuario = JOptionPane.showInputDialog("Nick: ");
 
-        this.cliente.nick = usuario;
+        this.cliente.setNick(usuario);
 
         this.cliente.Enviar_mensaje(new Mensaje(usuario, "", "conection", "comando"));
 
@@ -83,11 +84,15 @@ class InterfazCliente extends JPanel implements Runnable {
         nick.setText(usuario);
         add (nick);
 
+
+
 		JLabel texto=new JLabel("Online: ");
 		
 		add(texto);
         
         ip = new JComboBox();
+
+        ip.addItem(usuario);
 
         add(ip);
 
@@ -112,9 +117,9 @@ class InterfazCliente extends JPanel implements Runnable {
 
     private class Enviar implements ActionListener{
 
-        private Cliente cliente;
+        private ClienteConnection cliente;
 
-        public Enviar(Cliente cliente){
+        public Enviar(ClienteConnection cliente){
         
             this.cliente = cliente;
         }

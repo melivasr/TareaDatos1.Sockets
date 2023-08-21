@@ -1,4 +1,4 @@
-package Cliente;
+package Common;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,17 +6,29 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import Mensaje.Mensaje;
+public class ClienteConnection implements Runnable {
+	String nick, ip, mensaje;
 
-public class Cliente implements Runnable{
-    String nick;
-    ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
     Socket socket;
-    
-    public Cliente(Socket socket){
-        this.socket = socket;
-        this.mensajes_recibidos= new ConcurrentLinkedQueue<>();
 
+    ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
+
+	public ClienteConnection(String nick, String ip, Socket socket){
+
+    this.nick = nick;
+
+    this.ip = ip;
+
+    this.socket = socket;
+
+    this.mensajes_recibidos= new ConcurrentLinkedQueue<>();
+
+		
+		}
+
+
+    public ClienteConnection(Socket misocket) {
+        this.socket= misocket;
     }
 
     public void Enviar_mensaje(Mensaje mensaje){
@@ -33,36 +45,46 @@ public class Cliente implements Runnable{
         
     }
 
+    
     public Mensaje Obtener_mensaje(){
 
         return this.mensajes_recibidos.poll();
-
     }
 
     public Boolean Revisar_bandeja(){
         return !this.mensajes_recibidos.isEmpty();
     }
 
-
+    public void setNick(String nick){
+        this.nick= nick;
+    }
+    public String getNick(){
+        return nick;
+    }
+        
 
     @Override
     public void run() {
-        try{
+        // TODO Auto-generated method stub
+        System.out.println("nuevo cliente conectado");
+
+        try {
 
             Mensaje paqueteRecibido;
 
-            while (true){
-
+            while(true){
                 ObjectInputStream entradaDatos = new ObjectInputStream(this.socket.getInputStream());
 
                 paqueteRecibido=(Mensaje)entradaDatos.readObject();
-                
+
                 this.mensajes_recibidos.add(paqueteRecibido);
                 
             }
 
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
     }
 }
