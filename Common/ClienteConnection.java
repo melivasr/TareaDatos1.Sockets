@@ -7,7 +7,9 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClienteConnection implements Runnable {
-	String nick, ip, mensaje;
+	String nick, ip;
+
+    public String mensaje;
 
     Socket socket;
 

@@ -43,8 +43,19 @@ public class Recepcion implements Runnable {
 
     @Override
     public void run() {
-        //falta que revise los mensajes que estan en las conexiones para validarlos ver quien es destinatario
-
-    }
+        while (true) {
+            Enumeration<String> llaves = this.conexiones.keys();
+            while (llaves.hasMoreElements()) {
+                String llave = llaves.nextElement();
+                ClienteConnection conexion = this.conexiones.get(llave);
+                if(conexion.Revisar_bandeja()){
+                    Mensaje mensaje = conexion.Obtener_mensaje();
+                    if (mensaje != null) {
+                        EnviarMensaje(mensaje);
+                    }
+                }
+            }
+        }
     
+    }
 }
