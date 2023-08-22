@@ -15,17 +15,28 @@ import javax.swing.JTextField;
  */
 public class Inicial implements ActionListener {
     /**
-     * Declaración de elementos de la interfaz de la ventana inicial
+     * Representa donde se colocan los demás elementos
      */
     private JFrame frame=new JFrame();
+    /**
+     * Representa el botón para crear un nuevo chat
+     */
     private JButton crearCliente= new JButton("Crear chat");
-
+    /**
+     * Representa el botón para ver los usuarios conectados
+     */
     private JButton verUsuarios= new JButton("Ver usuarios conectados");
-
+    /**
+     * Representa el texto del nombre del chat
+     */
     private JLabel nombreChat= new JLabel("Tell'em Chat",JLabel.CENTER);
-
+    /**
+     * Representa donde se colocan el nombre de usuario
+     */
     private JTextField nickname = new JTextField(5);
-
+    /**
+     * Representa la lista de usuarios conectados
+     */
     ArrayList<String> usuarios = new ArrayList<String>();
     /**
      * Clase encargada iniciar los diferentes elmentos de la interfaz de la ventana inicial
@@ -44,9 +55,9 @@ public class Inicial implements ActionListener {
         crearCliente.setFocusable(false);
         crearCliente.addActionListener(this);
 
-        crearCliente.setBounds(65,210,150,40);
-        crearCliente.setFocusable(false);
-        crearCliente.addActionListener(this);
+        verUsuarios.setBounds(65,210,150,40);
+        verUsuarios.setFocusable(false);
+        verUsuarios.addActionListener(this);
 
         frame.add(crearCliente);
 

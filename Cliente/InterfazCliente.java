@@ -60,17 +60,29 @@ class MiCliente extends JFrame{
  * Clase encargada de los elementos de la interfaz del chat
  */
 class InterfazCliente extends JPanel implements Runnable {
-
+    /**
+     * Representa el lugar para escribir el mensaje
+     */
     private JTextField campo1;
-
+    /**
+     * Representa la conexión con el cliente
+     */
     private ClienteConnection cliente;
-
+    /**
+     * Representa una lista desplejable de ips
+     */
     private JComboBox ip;
-
+    /**
+     * Representa el texto del nombre de usuario
+     */
     private JLabel nick;
-
+    /**
+     * Representa el lugar para donde se muestran los mensajes
+     */
     private JTextArea espaciochat;
-	
+    /**
+     * Representa el boton de enviar
+     */
 	private JButton miboton;
     /**
      * Clase encargada iniciar los diferentes elementos de la interfaz del chat
@@ -127,7 +139,9 @@ class InterfazCliente extends JPanel implements Runnable {
      * Clase encargada de enviar mensajes al servidor
      */
     private class Enviar implements ActionListener{
-
+        /**
+         * Representa la conexión con el cliente
+         */
         private ClienteConnection cliente;
 
         /**

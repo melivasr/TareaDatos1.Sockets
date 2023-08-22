@@ -12,7 +12,9 @@ import Common.Mensaje;
  * Clase encargada de recivir mensajes leer para quien es y enviarlo
  */
 public class Recepcion implements Runnable {
-
+    /**
+     * Representa una forma de guarda la conexion con cada cliente y su ip
+     */
     ConcurrentHashMap<String, ClienteConnection> conexiones;
 
     /**

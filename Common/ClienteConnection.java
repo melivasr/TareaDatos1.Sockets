@@ -10,12 +10,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Clase encargada de crear conexiones entre clientes y el servidor
  */
 public class ClienteConnection implements Runnable {
+    /**
+     * Representa la informacion de la ventana(nombre de usuario e ip)
+     */
 	String nick, ip;
-
+    /**
+     * Representa el texto a enviar
+     */
     public String mensaje;
-
+    /**
+     * Representa el socket del cliente
+     */
     Socket socket;
-
+    /**
+     * Representa los mensajes recibidos
+     */
     ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
 
     /**
