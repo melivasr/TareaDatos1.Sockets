@@ -10,22 +10,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Clase encargada de crear conexiones entre clientes y el servidor
  */
 public class ClienteConnection implements Runnable {
-    /**
-     * Representa la informacion de la ventana(nombre de usuario e ip)
-     */
 	String nick, ip;
-    /**
-     * Representa el texto a enviar
-     */
+
     public String mensaje;
-    /**
-     * Representa el socket del cliente
-     */
+
+    private ObjectOutputStream envioDatos;
+
+    private ObjectInputStream entradaDatos;
+
     Socket socket;
-    /**
-     * Representa los mensajes recibidos
-     */
-    ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
+
+    public ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
 
     /**
      * Crea un paquete con la informacion de cada mensaje
@@ -42,10 +37,32 @@ public class ClienteConnection implements Runnable {
     this.socket = socket;
 
     this.mensajes_recibidos= new ConcurrentLinkedQueue<>();
-
 		
 		}
+    
+    public ObjectInputStream getEntradaDatos() {
+        if(this.entradaDatos == null){
+            try {
+                this.entradaDatos = new ObjectInputStream(this.socket.getInputStream());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return entradaDatos;
+    }
 
+    public ObjectOutputStream getEnvioDatos() {
+        if(this.envioDatos == null){
+            try {
+                this.envioDatos = new ObjectOutputStream(this.socket.getOutputStream());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return envioDatos;
+    }
 
     /**
      * Conecta al cliente con el socket dado
@@ -60,11 +77,12 @@ public class ClienteConnection implements Runnable {
      * @param mensaje La clase para la informacion de los mensajes
      */
     public void Enviar_mensaje(Mensaje mensaje){
+        System.out.println(mensaje.ToString());
         try {
 
-                ObjectOutputStream envio_datos= new ObjectOutputStream(this.socket.getOutputStream());
+                this.getEnvioDatos().flush();
 
-                envio_datos.writeObject(mensaje);
+                this.getEnvioDatos().writeObject(mensaje);
 
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
@@ -83,12 +101,15 @@ public class ClienteConnection implements Runnable {
         return this.mensajes_recibidos.poll();
     }
 
+
     /**
-     * Función para revisar el cliente resive mensajes
+     * Función para revisar el cliente recibe mensajes
      * @return Un booleano que dice si la lista de mensajes recibidos tiene algun elemento
      */
     public Boolean Revisar_bandeja(){
-        return !this.mensajes_recibidos.isEmpty();
+        return this.mensajes_recibidos != null && !this.mensajes_recibidos.isEmpty();
+
+
     }
 
     public void setNick(String nick){
@@ -98,29 +119,49 @@ public class ClienteConnection implements Runnable {
         return nick;
     }
 
+    public Mensaje LeerMensajeMetaData(){
+
+        ObjectInputStream entradaDatos = this.getEntradaDatos();
+        try {
+            Mensaje mensaje = (Mensaje)entradaDatos.readObject();
+            return mensaje;
+        } catch (IOException | ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
 
     /**
      * Se encarga de recibir constantemente mensajes y los añade a la lista de mensajes
      */
+
+    }
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        System.out.println("nuevo cliente conectado");
+        System.out.println("Se inicio el run");
 
         try {
 
             Mensaje paqueteRecibido;
+            ObjectInputStream entradaDatos = this.getEntradaDatos();
 
             while(true){
-                ObjectInputStream entradaDatos = new ObjectInputStream(this.socket.getInputStream());
 
                 paqueteRecibido=(Mensaje)entradaDatos.readObject();
 
-                this.mensajes_recibidos.add(paqueteRecibido);
+                if(this.mensajes_recibidos==null){
+                    this.mensajes_recibidos= new ConcurrentLinkedQueue<>();
+                }
+
+                this.mensajes_recibidos.offer(paqueteRecibido);
+                System.out.println(this.mensajes_recibidos.toString());
+
+            
                 
             }
 
         } catch (Exception e) {
+            System.out.println("Salio");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

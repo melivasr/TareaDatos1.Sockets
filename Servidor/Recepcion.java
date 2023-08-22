@@ -9,12 +9,10 @@ import Common.Mensaje;
 
 
 /**
- * Clase encargada de recivir mensajes leer para quien es y enviarlo
+ * Clase encargada de recibir mensajes leer para quien es y enviarlo
  */
 public class Recepcion implements Runnable {
-    /**
-     * Representa una forma de guarda la conexion con cada cliente y su ip
-     */
+
     ConcurrentHashMap<String, ClienteConnection> conexiones;
 
     /**
@@ -46,6 +44,19 @@ public class Recepcion implements Runnable {
 
     }
 
+    public String ObtenerNombreClientes(){
+        String result = "";
+        Enumeration<String> llaves = this.conexiones.keys();
+        while(llaves.hasMoreElements()){
+            String llave = llaves.nextElement();
+            if(this.conexiones.containsKey(llave)){
+                result += this.conexiones.get(llave).getNick()+";";
+            }
+        }
+        return result;
+
+    }
+
     /**
      * Recorre el hashmap y envia el mensaje dado
      * @param mensaje La clase para los mensajes
@@ -58,7 +69,6 @@ public class Recepcion implements Runnable {
                 this.conexiones.get(llave).Enviar_mensaje(mensaje);// obtiene el destinatario y envia el mensaje
             }//Falta mensaje comando que envie que alguien nuevo se conecto
         }
-
     }
 
     /**

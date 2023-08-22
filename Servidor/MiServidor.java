@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import javax.swing.JTextArea;
 
 import Common.ClienteConnection;
+import Common.Mensaje;
 
 /**
  * Clase de servidor que se encarga de recibir los mensajes y reenviarlos
  */
 public class MiServidor implements Runnable {
 	private	JTextArea areatexto;
+    public Recepcion recepcion;
 	public MiServidor(){
+
+        this.recepcion = new Recepcion();
 		
 		}
 
@@ -40,9 +44,20 @@ public class MiServidor implements Runnable {
 
                 ClienteConnection miusuario=new ClienteConnection("nick", "ip", misocket);
 
-                Thread mihilo= new Thread(miusuario);
+                Mensaje mensajeMetadata = miusuario.LeerMensajeMetaData();
 
-                mihilo.start();
+                if (mensajeMetadata != null && mensajeMetadata.getRemitente() != ""){
+                    this.recepcion.EnviarMensajeTodos(mensajeMetadata);
+                    Mensaje mensajeClientesConectados = new Mensaje("server", mensajeMetadata.getRemitente(), this.recepcion.ObtenerNombreClientes(), "conexiones" );
+                    miusuario.setNick(mensajeMetadata.getRemitente());
+                    this.recepcion.AgregarConexion(miusuario);
+                    this.recepcion.EnviarMensaje(mensajeClientesConectados);
+
+                    Thread mihilo= new Thread(miusuario);
+
+                    mihilo.start();
+                }
+
 
             }
             

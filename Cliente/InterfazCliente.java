@@ -33,10 +33,10 @@ class MiCliente extends JFrame{
             misocket = new Socket("192.168.100.8", 9998);
 
             ClienteConnection cliente = new ClienteConnection(misocket);
+            
+            
 
             InterfazCliente micanvas=new InterfazCliente(cliente);
-		
-            new Thread(cliente).start();
 
             new Thread(micanvas).start();
 
@@ -96,7 +96,13 @@ class InterfazCliente extends JPanel implements Runnable {
 
         this.cliente.setNick(usuario);
 
-        this.cliente.Enviar_mensaje(new Mensaje(usuario, "", "conection", "comando"));
+        this.cliente.Enviar_mensaje(new Mensaje(usuario, "", "", "conexion"));
+        
+        Mensaje mensaje = this.cliente.LeerMensajeMetaData();
+
+        
+
+        new Thread(cliente).start();
 
         JLabel n_nick= new JLabel("Nick: ");
         add(n_nick);
@@ -113,9 +119,17 @@ class InterfazCliente extends JPanel implements Runnable {
         
         ip = new JComboBox();
 
-        ip.addItem(usuario);
-
         add(ip);
+
+        if(mensaje.getTipo().equals("conexiones")){
+            String[] parts = mensaje.getMensaje().split(";");
+            for (String part : parts) {
+                if(part != ""){
+                    ip.addItem(part);
+                }
+
+            }
+        }
 
         espaciochat = new JTextArea(12,20); //coordenadas ventana
 
@@ -175,9 +189,20 @@ class InterfazCliente extends JPanel implements Runnable {
     @Override
     public void run() {
         while(true){
+            try {
+                Thread.sleep(4000);
+                System.out.println(this.cliente.mensajes_recibidos);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             if (this.cliente.Revisar_bandeja()){
                 Mensaje paqueteRecibido = this.cliente.Obtener_mensaje();
-                espaciochat.append("\n"+paqueteRecibido.getRemitente()+": "+paqueteRecibido.getMensaje());
+                if(paqueteRecibido.getTipo().equals("conexion")){
+                    ip.addItem(paqueteRecibido.getRemitente());
+                }else if(paqueteRecibido.getTipo().equals("mensaje")){
+                    espaciochat.append("\n"+paqueteRecibido.getRemitente()+": "+paqueteRecibido.getMensaje());
+                }
 
             }
             
