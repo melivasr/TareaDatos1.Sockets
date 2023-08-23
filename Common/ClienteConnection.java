@@ -10,16 +10,29 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Clase encargada de crear conexiones entre clientes y el servidor
  */
 public class ClienteConnection implements Runnable {
+    /**
+     * Representa la informacion de la ventana(nombre de usuario e ip)
+     */
 	String nick, ip;
-
+    /**
+     * Representa el texto a enviar
+     */
     public String mensaje;
-
+    /**
+     * Representa una linea de salida de datos
+     */
     private ObjectOutputStream envioDatos;
-
+    /**
+     * Representa una linea de entrada de datos
+     */
     private ObjectInputStream entradaDatos;
-
+    /**
+     * Representa el socket del cliente
+     */
     Socket socket;
-
+    /**
+     * Representa los mensajes recibidos
+     */
     public ConcurrentLinkedQueue<Mensaje> mensajes_recibidos;
 
     /**
@@ -39,7 +52,9 @@ public class ClienteConnection implements Runnable {
     this.mensajes_recibidos= new ConcurrentLinkedQueue<>();
 		
 		}
-    
+    /**
+     * Recibe los datos de la linea de entrada de datos
+     */
     public ObjectInputStream getEntradaDatos() {
         if(this.entradaDatos == null){
             try {
@@ -51,7 +66,9 @@ public class ClienteConnection implements Runnable {
         }
         return entradaDatos;
     }
-
+    /**
+     * Envia los datos de la linea de salida de datos
+     */
     public ObjectOutputStream getEnvioDatos() {
         if(this.envioDatos == null){
             try {
@@ -111,13 +128,22 @@ public class ClienteConnection implements Runnable {
 
     }
 
+    /**
+     * @param nick El nuevo nombre de usuario
+     */
     public void setNick(String nick){
         this.nick= nick;
     }
-    public String getNick(){
+    /**
+     * @return Devuelve el nombre de usuario
+     */
+    public String getNick() {
         return nick;
     }
 
+    /**
+     * @return Devuelve los datos leidos de la linea de entrada de datos
+     */
     public Mensaje LeerMensajeMetaData(){
 
         ObjectInputStream entradaDatos = this.getEntradaDatos();

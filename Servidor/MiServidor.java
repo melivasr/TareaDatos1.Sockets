@@ -13,8 +13,19 @@ import Common.Mensaje;
  * Clase de servidor que se encarga de recibir los mensajes y reenviarlos
  */
 public class MiServidor implements Runnable {
+    /**
+     * Representa el lugar para donde se muestran los mensajes
+     */
 	private	JTextArea areatexto;
+    /**
+     * Representa una instancia de la clase encargada de recibir los mensajes
+     */
     public Recepcion recepcion;
+
+    /**
+     * Crea una instancia de servidor usando una recepcion
+     * @param recepcion
+     */
 	public MiServidor(Recepcion recepcion){
 
         this.recepcion = recepcion;

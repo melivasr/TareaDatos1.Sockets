@@ -30,7 +30,7 @@ class MiCliente extends JFrame{
 
         Socket misocket;
         try {
-            misocket = new Socket("192.168.100.8", 9998);
+            misocket = new Socket("192.168.0.125", 9998);
 
             ClienteConnection cliente = new ClienteConnection(misocket);
             

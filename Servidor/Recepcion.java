@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import Common.ClienteConnection;
 import Common.Mensaje;
 
+
+
 /**
  * Clase encargada de recibir mensajes leer para quien es y enviarlo
  */
@@ -16,7 +18,7 @@ public class Recepcion implements Runnable {
     /**
      * Inicia el hashmap de conexiones de los clientes
      */
-    public Recepcion() {
+    public Recepcion(){
 
         this.conexiones = new ConcurrentHashMap<>();
 
@@ -24,33 +26,34 @@ public class Recepcion implements Runnable {
 
     /**
      * Añade una conexion el hashmap
-     * 
      * @param conexion La clase especificada para conectar cada cliente
      */
-    public void AgregarConexion(ClienteConnection conexion) {
+    public void AgregarConexion(ClienteConnection conexion){
         this.conexiones.put(conexion.getNick(), conexion);
 
     }
 
     /**
      * Se encarga de leer para quien es el mensaje y enviarlo
-     * 
      * @param mensaje La clase para los mensajes
      */
-    public void EnviarMensaje(Mensaje mensaje) {
-        if (this.conexiones.containsKey(mensaje.getDestinatario())) {
-            this.conexiones.get(mensaje.getDestinatario()).Enviar_mensaje(mensaje);// obtiene el destinatario y envia el
+    public void EnviarMensaje(Mensaje mensaje){
+        if(this.conexiones.containsKey(mensaje.getDestinatario())){
+            this.conexiones.get(mensaje.getDestinatario()).Enviar_mensaje(mensaje);// obtiene el destinatario y envia el mensaje
         }
 
     }
 
-    public String ObtenerNombreClientes() {
+    /**
+     * @return El nick de cada chat
+     */
+    public String ObtenerNombreClientes(){
         String result = "";
         Enumeration<String> llaves = this.conexiones.keys();
-        while (llaves.hasMoreElements()) {
+        while(llaves.hasMoreElements()){
             String llave = llaves.nextElement();
-            if (this.conexiones.containsKey(llave)) {
-                result += this.conexiones.get(llave).getNick() + ";";
+            if(this.conexiones.containsKey(llave)){
+                result += this.conexiones.get(llave).getNick()+";";
             }
         }
         return result;
@@ -59,37 +62,29 @@ public class Recepcion implements Runnable {
 
     /**
      * Recorre el hashmap y envia el mensaje dado
-     * 
      * @param mensaje La clase para los mensajes
      */
-    public void EnviarMensajeTodos(Mensaje mensaje) {
+    public void EnviarMensajeTodos(Mensaje mensaje){
         Enumeration<String> llaves = this.conexiones.keys();
-        while (llaves.hasMoreElements()) {
+        while(llaves.hasMoreElements()){
             String llave = llaves.nextElement();
-            if (this.conexiones.containsKey(llave)) {
+            if(this.conexiones.containsKey(llave)){
                 this.conexiones.get(llave).Enviar_mensaje(mensaje);// obtiene el destinatario y envia el mensaje
-            } // Falta mensaje comando que envie que alguien nuevo se conecto
+            }//Falta mensaje comando que envie que alguien nuevo se conecto
         }
     }
 
     /**
-     * Revisa la bandeja de cada conexion para ver si tienen mensajes pendientes y
-     * los envia
+     * Revisa la bandeja de cada conexion para ver si tienen mensajes pendientes y los envia
      */
     @Override
     public void run() {
         while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             Enumeration<String> llaves = this.conexiones.keys();
             while (llaves.hasMoreElements()) {
                 String llave = llaves.nextElement();
                 ClienteConnection conexion = this.conexiones.get(llave);
-                if (conexion.Revisar_bandeja()) {
+                if(conexion.Revisar_bandeja()){
                     Mensaje mensaje = conexion.Obtener_mensaje();
                     if (mensaje != null) {
                         this.EnviarMensaje(mensaje);
@@ -97,6 +92,6 @@ public class Recepcion implements Runnable {
                 }
             }
         }
-
+    
     }
 }
