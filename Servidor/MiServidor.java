@@ -15,9 +15,9 @@ import Common.Mensaje;
 public class MiServidor implements Runnable {
 	private	JTextArea areatexto;
     public Recepcion recepcion;
-	public MiServidor(){
+	public MiServidor(Recepcion recepcion){
 
-        this.recepcion = new Recepcion();
+        this.recepcion = recepcion;
 		
 		}
 
@@ -27,7 +27,6 @@ public class MiServidor implements Runnable {
     @Override
     public void run() {
         // TODO Auto-generated method stub
-        System.out.println("holi");
 
         try {
             ServerSocket servidor= new ServerSocket(9998);
@@ -38,8 +37,6 @@ public class MiServidor implements Runnable {
 
             while(true){
 //guardar variable mi usuario en recepcion,
-                System.out.println("holi");
-
                 Socket misocket = servidor.accept();
 
                 ClienteConnection miusuario=new ClienteConnection("nick", "ip", misocket);

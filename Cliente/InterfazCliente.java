@@ -141,7 +141,7 @@ class InterfazCliente extends JPanel implements Runnable {
 	
 		miboton=new JButton("Enviar");
 
-        Enviar mievento= new Enviar(this.cliente);
+        Enviar mievento= new Enviar(this.cliente, this.ip);
 
         miboton.addActionListener(mievento);
 		
@@ -157,14 +157,16 @@ class InterfazCliente extends JPanel implements Runnable {
          * Representa la conexión con el cliente
          */
         private ClienteConnection cliente;
+        private JComboBox ip;
 
         /**
          * Modifica la conexion del cliente
          * @param cliente La nueva conexion
          */
-        public Enviar(ClienteConnection cliente){
+        public Enviar(ClienteConnection cliente, JComboBox ip){
         
             this.cliente = cliente;
+            this.ip = ip;
         }
         /**
          * Detecta los eventos
@@ -175,9 +177,9 @@ class InterfazCliente extends JPanel implements Runnable {
 
             espaciochat.append("\n" + campo1.getText());
 
-            Mensaje datos = new Mensaje(nick.getText(), "destinatario", campo1.getText(), " mensaje");
+            Mensaje datos = new Mensaje(nick.getText(), String.valueOf(this.ip.getSelectedItem()), campo1.getText(), "mensaje");
             this.cliente.Enviar_mensaje(datos);
-
+            campo1.setText("");
             System.out.println("Mensaje Enviado");
 
         }
@@ -198,6 +200,7 @@ class InterfazCliente extends JPanel implements Runnable {
             }
             if (this.cliente.Revisar_bandeja()){
                 Mensaje paqueteRecibido = this.cliente.Obtener_mensaje();
+                System.out.println(paqueteRecibido.ToString());
                 if(paqueteRecibido.getTipo().equals("conexion")){
                     ip.addItem(paqueteRecibido.getRemitente());
                 }else if(paqueteRecibido.getTipo().equals("mensaje")){

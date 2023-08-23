@@ -51,7 +51,7 @@ public class Mensaje implements Serializable{
     }
 
     public String ToString(){
-        return "Destinatario: " + getDestinatario() + "\nRemitente:" + getRemitente() + "\nMensaje" + getMensaje() + "\nTipo:" + getTipo();
+        return "Destinatario: " + getDestinatario() + "\nRemitente: " + getRemitente() + "\nMensaje: " + getMensaje() + "\nTipo: " + getTipo();
     }
 
     

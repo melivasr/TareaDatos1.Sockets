@@ -77,7 +77,6 @@ public class ClienteConnection implements Runnable {
      * @param mensaje La clase para la informacion de los mensajes
      */
     public void Enviar_mensaje(Mensaje mensaje){
-        System.out.println(mensaje.ToString());
         try {
 
                 this.getEnvioDatos().flush();
