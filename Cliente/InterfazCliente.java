@@ -1,5 +1,6 @@
 package Cliente;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -102,6 +103,10 @@ class InterfazCliente extends JPanel implements Runnable {
             
 
             new Thread(cliente).start();
+        new Thread(cliente).start();
+        JLabel nombreChat= new JLabel("Tell'em chat");
+        nombreChat.setForeground(Color.green);
+        add(nombreChat);
 
             JLabel n_nick= new JLabel("Nick: ");
             add(n_nick);
@@ -112,11 +117,11 @@ class InterfazCliente extends JPanel implements Runnable {
 
 
 
-            JLabel texto=new JLabel("Online: ");
-            
-            add(texto);
-            
-            ip = new JComboBox();
+		JLabel texto=new JLabel("Online: ");
+        texto.setForeground(Color.red);
+		add(texto);
+        
+        ip = new JComboBox();
 
             add(ip);
 
@@ -130,17 +135,19 @@ class InterfazCliente extends JPanel implements Runnable {
                 }
             }
 
-            espaciochat = new JTextArea(12,20); //coordenadas ventana
-
-            add (espaciochat);
-        
-            campo1=new JTextField(20);
-        
-            add(campo1);
-        
-            miboton=new JButton("Enviar");
-
-            Enviar mievento= new Enviar(this.cliente, this.ip);
+        espaciochat = new JTextArea(12,20); //coordenadas ventana
+        espaciochat.setBackground(Color.darkGray);
+        espaciochat.setForeground(Color.white);
+        add (espaciochat);
+	
+		campo1=new JTextField(20);
+	
+		add(campo1);
+	
+		miboton=new JButton("Enviar");
+        miboton.setBackground(Color.DARK_GRAY);
+        miboton.setForeground(Color.white);
+        Enviar mievento= new Enviar(this.cliente, this.ip);
 
             miboton.addActionListener(mievento);
             

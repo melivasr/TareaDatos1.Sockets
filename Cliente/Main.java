@@ -14,7 +14,6 @@ public class Main {
         MiCliente miusuario=new MiCliente();
 		
 		miusuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 	}
 
 }
