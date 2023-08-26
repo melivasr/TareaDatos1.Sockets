@@ -27,30 +27,15 @@ class MiCliente extends JFrame{
 	public MiCliente(){
 		
 		setBounds(650,200,280,350);
-
-        Socket misocket;
-        try {
-            misocket = new Socket("192.168.100.8", 9998);
-
-            ClienteConnection cliente = new ClienteConnection(misocket);
-            
-            
-
-            InterfazCliente micanvas=new InterfazCliente(cliente);
-
-            new Thread(micanvas).start();
-
-            add(micanvas);
-		
-
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         
-        }
+    
+        InterfazCliente micanvas=new InterfazCliente();
+
+        new Thread(micanvas).start();
+
+        add(micanvas);
+		
+        
 
 		setVisible(true);
 
@@ -88,64 +73,88 @@ class InterfazCliente extends JPanel implements Runnable {
      * Clase encargada iniciar los diferentes elementos de la interfaz del chat
      * @param cliente Conexion con el cliente
      */
-	public InterfazCliente(ClienteConnection cliente) {
+	public InterfazCliente() {
 
-        this.cliente = cliente;
+   
 
-        String usuario = JOptionPane.showInputDialog("Nick: ");
+        JTextField username = new JTextField();
+        JTextField port = new JTextField();
+        Object[] message = {
+            "Nick:", username,
+            "Puerto:", port
+        };
 
-        this.cliente.setNick(usuario);
+        int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.DEFAULT_OPTION);
 
-        this.cliente.Enviar_mensaje(new Mensaje(usuario, "", "", "conexion"));
+        Socket misocket;
+
+        try {
+            misocket = new Socket("192.168.100.8", Integer.parseInt(port.getText()));
+
+            this.cliente = new ClienteConnection(misocket);
+
+            this.cliente.setNick(username.getText());
+
+            this.cliente.Enviar_mensaje(new Mensaje(username.getText(), "", "", "conexion"));
+            
+            Mensaje mensaje = this.cliente.LeerMensajeMetaData();
+
+            
+
+            new Thread(cliente).start();
+
+            JLabel n_nick= new JLabel("Nick: ");
+            add(n_nick);
         
-        Mensaje mensaje = this.cliente.LeerMensajeMetaData();
-
-        
-
-        new Thread(cliente).start();
-
-        JLabel n_nick= new JLabel("Nick: ");
-        add(n_nick);
-    
-        nick = new JLabel();
-        nick.setText(usuario);
-        add (nick);
+            nick = new JLabel();
+            nick.setText(username.getText());
+            add (nick);
 
 
 
-		JLabel texto=new JLabel("Online: ");
-		
-		add(texto);
-        
-        ip = new JComboBox();
+            JLabel texto=new JLabel("Online: ");
+            
+            add(texto);
+            
+            ip = new JComboBox();
 
-        add(ip);
+            add(ip);
 
-        if(mensaje.getTipo().equals("conexiones")){
-            String[] parts = mensaje.getMensaje().split(";");
-            for (String part : parts) {
-                if(part != ""){
-                    ip.addItem(part);
+            if(mensaje.getTipo().equals("conexiones")){
+                String[] parts = mensaje.getMensaje().split(";");
+                for (String part : parts) {
+                    if(part != ""){
+                        ip.addItem(part);
+                    }
+
                 }
-
             }
+
+            espaciochat = new JTextArea(12,20); //coordenadas ventana
+
+            add (espaciochat);
+        
+            campo1=new JTextField(20);
+        
+            add(campo1);
+        
+            miboton=new JButton("Enviar");
+
+            Enviar mievento= new Enviar(this.cliente, this.ip);
+
+            miboton.addActionListener(mievento);
+            
+            add(miboton);
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        
         }
 
-        espaciochat = new JTextArea(12,20); //coordenadas ventana
-
-        add (espaciochat);
-	
-		campo1=new JTextField(20);
-	
-		add(campo1);
-	
-		miboton=new JButton("Enviar");
-
-        Enviar mievento= new Enviar(this.cliente, this.ip);
-
-        miboton.addActionListener(mievento);
-		
-		add(miboton);
+        
 
 		
 	}

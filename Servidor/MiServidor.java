@@ -2,7 +2,6 @@ package Servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import javax.swing.JTextArea;
 
@@ -29,11 +28,9 @@ public class MiServidor implements Runnable {
         // TODO Auto-generated method stub
 
         try {
-            ServerSocket servidor= new ServerSocket(9998);
+            ServerSocket servidor= new ServerSocket(0);
 
-            String nick, ip, mensaje;
-
-            ArrayList <String> listaIp= new ArrayList<String>();
+            System.out.println("Usando el puerto: " + servidor.getLocalPort());
 
             while(true){
 //guardar variable mi usuario en recepcion,
@@ -46,6 +43,7 @@ public class MiServidor implements Runnable {
                 if (mensajeMetadata != null && mensajeMetadata.getRemitente() != ""){
                     this.recepcion.EnviarMensajeTodos(mensajeMetadata);
                     Mensaje mensajeClientesConectados = new Mensaje("server", mensajeMetadata.getRemitente(), this.recepcion.ObtenerNombreClientes(), "conexiones" );
+                    System.out.println("Usuario " +mensajeMetadata.getRemitente()+ " se ha conectado");
                     miusuario.setNick(mensajeMetadata.getRemitente());
                     this.recepcion.AgregarConexion(miusuario);
                     this.recepcion.EnviarMensaje(mensajeClientesConectados);
