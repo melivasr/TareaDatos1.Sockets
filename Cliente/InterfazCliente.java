@@ -103,10 +103,9 @@ class InterfazCliente extends JPanel implements Runnable {
             
 
             new Thread(cliente).start();
-        new Thread(cliente).start();
-        JLabel nombreChat= new JLabel("Tell'em chat");
-        nombreChat.setForeground(Color.green);
-        add(nombreChat);
+            JLabel nombreChat= new JLabel("Tell'em chat");
+            nombreChat.setForeground(Color.green);
+            add(nombreChat);
 
             JLabel n_nick= new JLabel("Nick: ");
             add(n_nick);
